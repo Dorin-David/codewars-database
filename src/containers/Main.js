@@ -20,6 +20,7 @@ function Main() {
             const data = await request.json();
             if(data.success === false) throw new Error('user not found')
             setUser(data);
+            setError(false)
         } catch (error) {
             console.log(error)
             setError(true);
@@ -37,6 +38,7 @@ function Main() {
             const request = await fetch(url);
             const data = await request.json();
             setKatas(data);
+            setError(false)
         } catch (error) {
             console.log(error)
             setError(true);
@@ -78,6 +80,7 @@ function Main() {
           name={user.name}
           clan={user.clan}
           completedKatas={user.codeChallenges.totalCompleted}
+          authoredKatas={user.codeChallenges.totalAuthored}
           leaderboard={user.leaderboardPosition}
           languages={Object.keys(user.ranks.languages)}
         />

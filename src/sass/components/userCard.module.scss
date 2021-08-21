@@ -1,0 +1,36 @@
+@use '../abstract/index' as *;
+.wrapper {
+  width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: $black-userCard;
+  border-radius: 4px;
+  p {
+    margin: 0.5em;
+    color: #ddd2d2;
+    font-size: 1.3em;
+  }
+  span {
+    color: $stats;
+    font-weight: bold;
+  }
+  img {
+    width: 100%;
+  }
+}
+
+.languages {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  div {
+    min-width: 100px;
+    margin: 0 0.5rem;
+    padding: 0.5rem;
+    background: #303133;
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+}

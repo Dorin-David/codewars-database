@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["../../sass/components/userCard.module.scss","../../sass/abstract/_colors.scss"],"names":[],"mappings":"AACA;EACE;EACA;EACA;EACA,YCHe;EDIf;;AACA;EACE;EACA;EACA;;AAEF;EACE,OCLI;EDMJ;;AAEF;EACE;;;AAIJ;EACE;EACA;EACA;;AACA;EACE;EACA;EACA;EACA;EACA;EACA;EACA;EACA","file":"userCard.module.css"}
