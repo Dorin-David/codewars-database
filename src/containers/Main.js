@@ -1,21 +1,24 @@
 import { useState, useEffect, useCallback } from 'react';
 import Form from '../components/Form';
+import User from '../components/User';
 
 function Main() {
     //setup base url
     const [baseUrl] = useState('https://www.codewars.com/api/v1/');
-    const [user, setUser] = useState('');
+    //user and user related info
+    const [user, setUser] = useState("");
     const [katas, setKatas] = useState([]);
     // const [selectedKata, setSelectedKata] = useState(null);
     const [error, setError] = useState(null);
     const [query, setQuery] = useState('');
+    
 
     //get the user
     async function getUser(user) {
         try {
             const request = await fetch(baseUrl + `users/${user}`);
             const data = await request.json();
-            if(!data.success) throw new Error('user not found')
+            if(data.success === false) throw new Error('user not found')
             setUser(data);
         } catch (error) {
             console.log(error)
@@ -33,10 +36,8 @@ function Main() {
         try {
             const request = await fetch(url);
             const data = await request.json();
-            if(!data.success) throw new Error('user not found')
             setKatas(data);
         } catch (error) {
-            //differenciate errors 
             console.log(error)
             setError(true);
         }
@@ -69,6 +70,19 @@ function Main() {
         setQuery('')
     }
 
+    //toDo: setup logic for differenciating not found users and other errors
+    let userCard = <h1>No user was found</h1>;
+    if(user) {
+        userCard = <User
+          user={user.username}
+          name={user.name}
+          clan={user.clan}
+          completedKatas={user.codeChallenges.totalCompleted}
+          leaderboard={user.leaderboardPosition}
+          languages={Object.keys(user.ranks.languages)}
+        />
+    }
+
     return (<>
         <Form 
           handleFormChange={handleFormChange}
@@ -76,7 +90,8 @@ function Main() {
           submitSearch={submitSearch}
         />
         {/* handle error message (modal?) */}
-        {!error ? <h1>We've found data</h1> : <h1>No user was found</h1>}
+        {!error ? userCard : <h1>No user was found</h1>}
+    {/* <img src="https://www.codewars.com/users/DevDor/badges/large" alt="" /> */}
     </>)
 }
 
