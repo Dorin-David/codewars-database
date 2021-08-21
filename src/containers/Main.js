@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Form from '../components/Form';
 import User from '../components/User';
+import Spinner from '../components/UI/Spinner';
 
 function Main() {
     //setup base url
@@ -10,21 +11,24 @@ function Main() {
     const [katas, setKatas] = useState([]);
     // const [selectedKata, setSelectedKata] = useState(null);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState('');
-    
+
 
     //get the user
     async function getUser(user) {
+        setLoading(true);
         try {
             const request = await fetch(baseUrl + `users/${user}`);
             const data = await request.json();
-            if(data.success === false) throw new Error('user not found')
+            if (data.success === false) throw new Error('user not found')
             setUser(data);
             setError(false)
         } catch (error) {
             console.log(error)
             setError(true);
         }
+        setLoading(false);
 
     }
     //get katas
@@ -32,8 +36,9 @@ function Main() {
     const getKatas = useCallback(async function (user) {
         //note: should be using buil-int pagination? => ?page=0 (default)
         // first version will only retrieve the last 200 katas; in the future we may add the possibility to take more
-        if(!user) return
+        if (!user) return
         const url = baseUrl + `users/${user}/code-challenges/completed`;
+        setLoading(true);
         try {
             const request = await fetch(url);
             const data = await request.json();
@@ -41,8 +46,10 @@ function Main() {
             setError(false)
         } catch (error) {
             console.log(error)
+            setLoading(false);
             setError(true);
         }
+        setLoading(false);
 
     }, [baseUrl])
 
@@ -62,40 +69,43 @@ function Main() {
         console.log(katas)
     }, [katas])
 
-    function handleFormChange(e){
-       setQuery(e.target.value)
+    function handleFormChange(e) {
+        setQuery(e.target.value)
     }
 
-    function submitSearch(){
-        if(!query) return
+    function submitSearch() {
+        if (!query) return
         getUser(query);
         setQuery('')
     }
 
     //toDo: setup logic for differenciating not found users and other errors
     let userCard = <h1>No user was found</h1>;
-    if(user) {
+    if (user) {
         userCard = <User
-          user={user.username}
-          name={user.name}
-          clan={user.clan}
-          completedKatas={user.codeChallenges.totalCompleted}
-          authoredKatas={user.codeChallenges.totalAuthored}
-          leaderboard={user.leaderboardPosition}
-          languages={Object.keys(user.ranks.languages)}
+            user={user.username}
+            name={user.name}
+            clan={user.clan}
+            completedKatas={user.codeChallenges.totalCompleted}
+            authoredKatas={user.codeChallenges.totalAuthored}
+            leaderboard={user.leaderboardPosition}
+            languages={Object.keys(user.ranks.languages)}
         />
     }
 
-    return (<>
-        <Form 
-          handleFormChange={handleFormChange}
-          value={query}
-          submitSearch={submitSearch}
-        />
-        {/* handle error message (modal?) */}
-        {!error ? userCard : <h1>No user was found</h1>}
-    {/* <img src="https://www.codewars.com/users/DevDor/badges/large" alt="" /> */}
-    </>)
+    let response = <Spinner />;
+    if (!loading) {
+        response = (<>
+            <Form
+                handleFormChange={handleFormChange}
+                value={query}
+                submitSearch={submitSearch}
+            />
+            {!error ? userCard : <h1>No user was found</h1>}
+        </>)
+    }
+
+    return response
 }
 
 export default Main
