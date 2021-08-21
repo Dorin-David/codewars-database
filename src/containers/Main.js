@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Form from '../components/Form';
 import User from '../components/User';
+import Katas from '../components/Katas/Katas';
 import Spinner from '../components/UI/Spinner';
 
 function Main() {
@@ -53,9 +54,10 @@ function Main() {
 
     }, [baseUrl])
 
-    // async function getSpecificKata(kata) {
-    //     const url = baseUrl + `code-challenges/${kata}`;
-    // }
+    async function getSpecificKata(kata) {
+        const url = baseUrl + `code-challenges/${kata}`;
+        console.log(kata)
+    }
 
     //re-fetch katas whenever the user changes
     useEffect(() => {
@@ -102,6 +104,8 @@ function Main() {
                 submitSearch={submitSearch}
             />
             {!error ? userCard : <h1>No user was found</h1>}
+            {/* change below to more elegant solution */}
+            {!error && <Katas showKata={getSpecificKata} katas={katas.data ? katas.data : []}/>}
         </>)
     }
 
