@@ -3,6 +3,7 @@ import Form from '../components/Form';
 import User from '../components/User';
 import Katas from '../components/Katas/Katas';
 import Spinner from '../components/UI/Spinner';
+import KataInfo from './KataInfo';
 
 function Main() {
     //setup base url
@@ -14,6 +15,8 @@ function Main() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState('');
+    const [showedKataInfo, setShowedKataInfo] = useState(null);
+    const [showKata, setShowKata] = useState(false);
 
 
     //get the user
@@ -54,9 +57,9 @@ function Main() {
 
     }, [baseUrl])
 
-    async function getSpecificKata(kata) {
-        const url = baseUrl + `code-challenges/${kata}`;
-        console.log(kata)
+     function showSpecificKata(id) {
+        setShowKata(true);
+        setShowedKataInfo(id)
     }
 
     //re-fetch katas whenever the user changes
@@ -71,6 +74,7 @@ function Main() {
         console.log(katas)
     }, [katas])
 
+    //performance: implement debouncing
     function handleFormChange(e) {
         setQuery(e.target.value)
     }
@@ -105,7 +109,8 @@ function Main() {
             />
             {!error ? userCard : <h1>No user was found</h1>}
             {/* change below to more elegant solution */}
-            {!error && <Katas showKata={getSpecificKata} katas={katas.data ? katas.data : []}/>}
+            {!error && <Katas showKata={showSpecificKata} katas={katas.data ? katas.data.slice(0, 10) : []}/>}
+            {showKata && <KataInfo kata={showedKataInfo}/>}
         </>)
     }
 
