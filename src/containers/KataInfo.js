@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Spinner from '../components/UI/Spinner';
 import Button from '../components/UI/Button';
 import style from '../styles/components/kata-info.module.css';
 
@@ -17,15 +16,8 @@ function processDate(stamp){
 
 
 function KataInfo(props) {
-    const [loadedKatas, setLoadedKatas] = useState({});
     const [kata, setKata] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-
     useEffect(() => {
-        if (loadedKatas[props.kata]) setKata(loadedKatas[props.kata])
-        else {
-            setLoading(true)
             try {
                 (async function retrieveKata() {
                     const request = await fetch(`https://www.codewars.com/api/v1/code-challenges/${props.kata}`);
@@ -43,16 +35,12 @@ function KataInfo(props) {
                         url: data.url,
                         createdAt: processDate(data.approvedAt)
                     };
-                    setLoadedKatas({ ...loadedKatas, [data.id]: kataData });
                     setKata(kataData);
-                    setError(false)
                 }())
             } catch (error) {
-                setError(error)
+                console.log(error)
             }
-            setLoading(false);
-        }
-    }, [props.kata, loadedKatas])
+    }, [props.kata])
     
       let kataInfo = null;
       if(kata){
@@ -77,7 +65,7 @@ function KataInfo(props) {
         </>
         )
       }
-    return loading ? <Spinner></Spinner> : !error ? kataInfo : <h1>An error occured</h1>
+    return kataInfo
 
 }
 
