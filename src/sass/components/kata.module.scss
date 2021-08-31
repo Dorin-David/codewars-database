@@ -26,3 +26,18 @@
     overflow: auto;
   }
   
+  @media screen and (max-width: 750px) {
+    .wrapper {
+      width: 180px;
+      height: 180px;
+      margin: 2rem;
+    }
+
+    .inner {
+      width: 173px;
+      height: 173px;
+      font-size: 1rem;
+      overflow: hidden;
+    }
+    
+  }

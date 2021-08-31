@@ -4,6 +4,7 @@ import User from '../components/User';
 import Katas from '../components/Katas/Katas';
 import Spinner from '../components/UI/Spinner';
 import KataInfo from './KataInfo';
+import Button from '../components/UI/Button';
 
 function Main() {
     //setup base url
@@ -17,6 +18,7 @@ function Main() {
     const [query, setQuery] = useState('');
     const [showedKataInfo, setShowedKataInfo] = useState(null);
     const [showKata, setShowKata] = useState(false);
+    const [offset, setOffset] = useState(50)
 
 
     //get the user
@@ -62,6 +64,10 @@ function Main() {
         setShowedKataInfo(id)
     }
 
+    function closeSpecifiKata(){
+        setShowKata(false)
+    }
+
     //re-fetch katas whenever the user changes
     useEffect(() => {
         const { username } = user;
@@ -69,12 +75,6 @@ function Main() {
     },
         [user, getKatas])
 
-    useEffect(() => {
-        console.log('triggered katas')
-        console.log(katas)
-    }, [katas])
-
-    //performance: implement debouncing
     function handleFormChange(e) {
         setQuery(e.target.value)
     }
@@ -108,9 +108,9 @@ function Main() {
                 submitSearch={submitSearch}
             />
             {!error ? userCard : <h1>No user was found</h1>}
-            {/* change below to more elegant solution */}
-            {!error && <Katas showKata={showSpecificKata} katas={katas.data ? katas.data.slice(0, 10) : []}/>}
-            {showKata && <KataInfo kata={showedKataInfo}/>}
+            {!error && <Katas showKata={showSpecificKata} katas={katas.data ? katas.data.slice(0, offset) : []}/>}
+            {!error && <Button onButtonClick={() => setOffset(offset => offset += 50)}>Show more</Button>}
+            {showKata && <KataInfo kata={showedKataInfo} closeKataInfo={closeSpecifiKata}/>}
         </>)
     }
 

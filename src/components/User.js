@@ -1,8 +1,6 @@
 import style from '../styles/components/userCard.module.css';
 
 function User(props){
-   //receives user as props and render dynamically image
-   // https://www.codewars.com/users/ [user] /badges/large
    return (<div className={style.wrapper}>
       <img src={`https://www.codewars.com/users/${props.user}/badges/large`} alt="user badge" />
       <p><span>warrior - </span>{props.user} ({props.name})</p>

@@ -1,3 +1,85 @@
-.div {
-    color: orange;
+@use '../abstract/index' as *;
+
+.wrapper {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  padding: 2rem;
+  overflow: auto;
+  background: $black-kataInfo;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  color: white;
+  span {
+    color: $text-red;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  .author::after {
+    content: "";
+    background: transparent url('../../assets/link-icon.svg') 0 0 no-repeat;
+    background-size: 20px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 3px;
+    vertical-align: sub;
+  }
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.kata-rank {
+  width: 70px;
+  height: 40px;
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  color: initial;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  div {
+    min-width: 100px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    background: #303133;
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 750px){
+  .wrapper {
+    p {
+      font-size: initial;
+    }
+  }
+
+  .tags > div {
+    font-size: 1.1rem;
+  }
 }

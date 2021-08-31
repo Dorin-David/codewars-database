@@ -28,3 +28,18 @@
   background: $red-background;
   color: white;
 }
+
+@media screen and (max-width: 600px){
+  .form {
+    width: 75% !important;
+  }
+
+  .button {
+    width: 15% !important;
+  }
+
+  .button,
+  .form {
+       font-size: 1.1rem;
+  }
+}

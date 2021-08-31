@@ -1,1 +1,7 @@
 @use './base/base' as *;
+
+@media screen and (max-width: 750px){
+    h1 {
+        font-size: 1.7rem;
+    }
+}

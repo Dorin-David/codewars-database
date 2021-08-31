@@ -29,4 +29,10 @@ input {
   outline: none;
 }
 
+@media screen and (max-width: 750px) {
+  h1 {
+    font-size: 1.7rem;
+  }
+}
+
 /*# sourceMappingURL=main.css.map */

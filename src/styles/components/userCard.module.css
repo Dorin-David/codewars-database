@@ -34,4 +34,29 @@
   font-size: 1.2rem;
 }
 
+@media screen and (max-width: 750px) {
+  .wrapper {
+    width: 90%;
+  }
+  .wrapper p {
+    margin: 0.5em;
+    color: #ddd2d2;
+    font-size: 1.1em;
+  }
+  .wrapper span {
+    color: #DE9710;
+    font-weight: bold;
+  }
+  .wrapper img {
+    width: 100%;
+  }
+  .wrapper h1 {
+    font-size: 1.5rem;
+  }
+
+  .languages > div {
+    font-size: 1rem;
+  }
+}
+
 /*# sourceMappingURL=userCard.module.css.map */
